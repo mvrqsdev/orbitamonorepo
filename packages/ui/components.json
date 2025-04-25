@@ -1,0 +1,22 @@
+{
+    "$schema": "https://ui.shadcn.com/schema.json",
+    "style": "new-york",
+    "rsc": true,
+    "tsx": true,
+    "tailwind": {
+      "config": "",
+      "css": "src/styles/globals.css",
+      "baseColor": "slate",
+      "cssVariables": true,
+      "prefix": ""
+    },
+    "aliases": {
+      "components": "@orbita/ui/components",
+      "utils": "@orbita/ui/lib/utils",
+      "hooks": "@orbita/ui/hooks",
+      "lib": "@orbita/ui/lib",
+      "ui": "@orbita/ui/components"
+    },
+    "iconLibrary": "lucide"
+  }
+  

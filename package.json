@@ -1,0 +1,29 @@
+{
+  "name": "@orbita/monorepo",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf node_modules && cd apps/web/ && yarn clean && cd ../../packages/prisma/ && yarn clean && cd ../dayjs/ && yarn clean && cd ../ui/ && yarn clean",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "db-deploy": "turbo run db-deploy",
+    "db-seed": "turbo run db-seed",
+    "db-studio": "yarn prisma studio"
+  },
+  "devDependencies": {
+    "@orbita/tsconfig" : "*",
+    "turbo": "^2.5.0",
+    "typescript": "5.8.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "yarn@1.22.22",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "config/*"
+  ]
+}

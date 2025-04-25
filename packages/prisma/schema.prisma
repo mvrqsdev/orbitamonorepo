@@ -1,0 +1,325 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  Invited
+  Active
+  Inactive
+}
+
+model User {
+  id                          String     @id @default(cuid())
+  image                       String?
+  name                        String
+  email                       String     @unique
+  password                    String
+  master                      Boolean    @default(false)
+  resetTokenPassword          String?    @unique @default(cuid())
+  resetTokenPasswordExpiresAt DateTime?
+  status                      UserStatus @default(Inactive)
+  chatwootAgentId             String
+  createdAt                   DateTime   @default(now())
+  updatedAt                   DateTime   @updatedAt
+
+  Permissions           UserPermission[]
+  Leads                 Lead[]
+  LeadComments          LeadComment[]
+  LeadDocuments         LeadDocument[]
+  Schedules             Schedule[]
+  ScheduleParticipating ScheduleParticipant[]
+
+  @@map("users")
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  slug        String           @unique
+  description String
+  Users       UserPermission[]
+
+  @@map("permissions")
+}
+
+model UserPermission {
+  userId       String
+  permissionId String
+  createdAt    DateTime   @default(now())
+  User         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([userId, permissionId])
+  @@map("user_permissions")
+}
+
+model Customer {
+  id                String   @id @default(cuid())
+  picture           String
+  name              String
+  phone             String
+  email             String
+  chatwootContactId String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  Leads Lead[]
+
+  @@map("customers")
+}
+
+enum LeadStatus {
+  Pending
+  Progress
+  Lost
+  Won
+}
+
+enum ScheduleStatus {
+  Scheduled
+  Completed
+  Canceled
+}
+
+model Schedule {
+  id                 String         @id @default(cuid())
+  userId             String
+  leadId             String
+  date               DateTime
+  address            String
+  nextNotificationAt DateTime?
+  status             ScheduleStatus @default(Scheduled)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  User         User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Lead         Lead                  @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  Participants ScheduleParticipant[]
+
+  @@map("schedules")
+}
+
+model ScheduleParticipant {
+  scheduleId String
+  userId     String
+
+  Schedule    Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  Participant User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([scheduleId, userId])
+  @@map("schedule_participants")
+}
+
+model Lead {
+  id                 String     @id @default(cuid())
+  title              String
+  customerId         String
+  userId             String?
+  laneId             Int        @default(1)
+  value              Int
+  status             LeadStatus @default(Pending)
+  lostedLeadReasonId String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  Campaigns    LeadCampaign[]
+  Customer     Customer?       @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  Broker       User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  Tags         LeadTag[]
+  Documents    LeadDocument[]
+  Comments     LeadComment[]
+  Metadata     LeadMetadata[]
+  Chats        LeadChat[]
+  Schedules    Schedule[]
+  Lane         Lane            @relation(fields: [laneId], references: [id], onDelete: SetDefault)
+  LostedReason LeadLostReason? @relation(fields: [lostedLeadReasonId], references: [id], onDelete: SetNull)
+
+  @@map("leads")
+}
+
+model LeadMetadata {
+  id        String   @id @default(cuid())
+  leadId    String
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("lead_metadatas")
+}
+
+model LeadLostReason {
+  id        String   @id @default(cuid())
+  reason    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Leads Lead[]
+
+  @@map("lead_lost_reasons")
+}
+
+model LeadComment {
+  id        String   @id @default(cuid())
+  leadId    String
+  userId    String
+  content   String
+  deleted   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@map("lead_comments")
+}
+
+model LeadChat {
+  leadId         String
+  conversationId String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  Lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@id([leadId, conversationId])
+  @@map("lead_chats")
+}
+
+model LeadDocument {
+  leadId    String
+  name      String
+  path      String
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Lead Lead  @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  User User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@id([leadId, path])
+  @@map("lead_documents")
+}
+
+model Lane {
+  id        Int      @id @default(autoincrement())
+  name      String
+  color     String
+  sortOrder Int
+  principal Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Leads Lead[]
+
+  @@map("lanes")
+}
+
+model ConstructionCompany {
+  id        String    @id @default(cuid())
+  name      String
+  email     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Projects  Project[]
+  Contacts  Contact[]
+
+  @@map("construction_companies")
+}
+
+model Project {
+  id             String   @id @default(cuid())
+  title          String
+  url            String
+  constructionId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  Campaigns           Campaign[]
+  ConstructionCompany ConstructionCompany @relation(fields: [constructionId], references: [id], onDelete: Cascade)
+
+  @@map("projects")
+}
+
+model Campaign {
+  id        String   @id @default(cuid())
+  title     String
+  sourceId  String?
+  projectId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Leads   LeadCampaign[]
+  Source  CampaignSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  Project Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("campaigns")
+}
+
+model LeadCampaign {
+  leadId     String
+  campaignId String
+
+  Lead     Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  Campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@id([leadId, campaignId])
+  @@map("lead_campaigns")
+}
+
+model CampaignSource {
+  id        String   @id @default(cuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Campaigns Campaign[]
+
+  @@map("campaign_sources")
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  color       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  Leads LeadTag[]
+
+  @@map("tags")
+}
+
+model LeadTag {
+  leadId String
+  tagId  String
+
+  Lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  Tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([tagId, leadId])
+  @@map("lead_tags")
+}
+
+model Contact {
+  id                    String   @id @default(cuid())
+  name                  String
+  email                 String
+  phone                 String
+  constructionCompanyId String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  ConstructionCompany ConstructionCompany @relation(fields: [constructionCompanyId], references: [id], onDelete: Cascade)
+
+  @@map("contacts")
+}

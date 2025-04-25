@@ -1,0 +1,22 @@
+{
+  "extends": "@orbita/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@orbita/ui/*": ["../../packages/ui/src/*"],
+      "@prisma/client/*": ["@orbita/prisma/*"]
+    },
+    "strictNullChecks": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.mjs",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "tailwind.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}

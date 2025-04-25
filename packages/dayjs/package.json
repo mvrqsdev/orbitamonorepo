@@ -1,0 +1,22 @@
+{
+  "name": "@orbita/dayjs",
+  "private": true,
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "dependencies": {
+    "dayjs": "^1.11.13"
+  },
+  "scripts": {
+    "clean": "rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@orbita/eslint-config": "*",
+    "@orbita/tsconfig": "*",
+    "typescript": "^5"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends" : "@orbita/eslint-config/lib"
+  }
+}
