@@ -1,4 +1,13 @@
 import { Prisma } from '../generated/client'
+import { CampaignBase } from './campaign'
+import { ConstructionCompanyBase } from './constructionCompany'
+import { ContactBase } from './contact'
+import { CustomerBase } from './customer'
+import { LaneBase } from './lane'
+import { ProjectBase } from './project'
+import { ScheduleBase } from './schedule'
+import { SourceBase } from './source'
+import { TagBase } from './tag'
 import { UserBase } from './user'
 
 export const LeadBase = Prisma.validator<Prisma.LeadSelect>()({
@@ -13,171 +22,6 @@ export const LeadBase = Prisma.validator<Prisma.LeadSelect>()({
   createdAt: true,
   updatedAt: true,
   _count: true,
-})
-
-export const Lead = Prisma.validator<Prisma.LeadSelect>()({
-  ...LeadBase,
-  Customer: {
-    select: {
-      id: true,
-      picture: true,
-      name: true,
-      email: true,
-      phone: true,
-      chatwootContactId: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
-  LostedReason: {
-    select: {
-      id: true,
-      reason: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
-  Broker: {
-    select: UserBase,
-  },
-  Documents: {
-    select: {
-      name: true,
-      path: true,
-      createdAt: true,
-      updatedAt: true,
-      User: {
-        select: UserBase,
-      },
-    },
-  },
-  Comments: {
-    select: {
-      id: true,
-      content: true,
-      deleted: true,
-      createdAt: true,
-      updatedAt: true,
-      userId: true,
-      User: {
-        select: UserBase,
-      },
-    },
-  },
-  Metadata: {
-    select: {
-      id: true,
-      key: true,
-      value: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
-  Chats: {
-    select: {
-      conversationId: true,
-      status: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
-  Campaigns: {
-    select: {
-      Campaign: {
-        select: {
-          id: true,
-          title: true,
-          createdAt: true,
-          updatedAt: true,
-          Source: {
-            select: {
-              id: true,
-              title: true,
-              createdAt: true,
-              updatedAt: true,
-            },
-          },
-          Project: {
-            select: {
-              id: true,
-              title: true,
-              url: true,
-              createdAt: true,
-              updatedAt: true,
-              ConstructionCompany: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  createdAt: true,
-                  updatedAt: true,
-                  Contacts: {
-                    select: {
-                      id: true,
-                      name: true,
-                      email: true,
-                      phone: true,
-                      createdAt: true,
-                      updatedAt: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-          _count: true,
-        },
-      },
-    },
-  },
-  Lane: {
-    select: {
-      id: true,
-      color: true,
-      name: true,
-      principal: true,
-      sortOrder: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
-  Tags: {
-    select: {
-      Tag: {
-        select: {
-          id: true,
-          name: true,
-          description: true,
-          color: true,
-          createdAt: true,
-          updatedAt: true,
-          _count: true,
-        },
-      },
-    },
-  },
-  Schedules: {
-    select: {
-      id: true,
-      date: true,
-      address: true,
-      nextNotificationAt: true,
-      status: true,
-      createdAt: true,
-      updatedAt: true,
-      User: {
-        select: UserBase,
-      },
-      Participants: {
-        select: {
-          Participant: {
-            select: UserBase,
-          },
-        },
-      },
-      _count: true,
-    },
-  },
 })
 
 export const LeadDocumentBase = Prisma.validator<Prisma.LeadDocumentSelect>()({
@@ -197,4 +41,115 @@ export const LeadCommentBase = Prisma.validator<Prisma.LeadCommentSelect>()({
   deleted: true,
   createdAt: true,
   updatedAt: true,
+})
+
+export const LeadMetadataBase = Prisma.validator<Prisma.LeadMetadataSelect>()({
+  id: true,
+  leadId: true,
+  key: true,
+  value: true,
+  createdAt: true,
+  updatedAt: true,
+})
+
+export const LeadLostReasonBase =
+  Prisma.validator<Prisma.LeadLostReasonSelect>()({
+    id: true,
+    reason: true,
+    createdAt: true,
+    updatedAt: true,
+    _count: true,
+  })
+
+export const LeadChatBase = Prisma.validator<Prisma.LeadChatSelect>()({
+  leadId: true,
+  conversationId: true,
+  status: true,
+  createdAt: true,
+  updatedAt: true,
+})
+
+export const LeadSelect = Prisma.validator<Prisma.LeadSelect>()({
+  ...LeadBase,
+  Customer: {
+    select: CustomerBase,
+  },
+  LostedReason: {
+    select: LeadLostReasonBase,
+  },
+  Broker: {
+    select: UserBase,
+  },
+  Documents: {
+    select: {
+      ...LeadDocumentBase,
+      User: {
+        select: UserBase,
+      },
+    },
+  },
+  Comments: {
+    select: {
+      ...LeadCommentBase,
+      User: {
+        select: UserBase,
+      },
+    },
+  },
+  Metadata: {
+    select: LeadMetadataBase,
+  },
+  Chats: {
+    select: LeadChatBase,
+  },
+  Campaigns: {
+    select: {
+      Campaign: {
+        select: {
+          ...CampaignBase,
+          Source: {
+            select: SourceBase,
+          },
+          Project: {
+            select: {
+              ...ProjectBase,
+              ConstructionCompany: {
+                select: {
+                  ...ConstructionCompanyBase,
+                  Contacts: {
+                    select: ContactBase,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  Lane: {
+    select: LaneBase,
+  },
+  Tags: {
+    select: {
+      Tag: {
+        select: TagBase,
+      },
+    },
+  },
+  Schedules: {
+    select: {
+      ...ScheduleBase,
+      User: {
+        select: UserBase,
+      },
+      Participants: {
+        select: {
+          Participant: {
+            select: UserBase,
+          },
+        },
+      },
+    },
+  },
 })
