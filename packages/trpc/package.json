@@ -1,0 +1,34 @@
+{
+  "name": "@orbita/trpc",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@orbita/prisma": "*",
+    "@tanstack/react-query": "^5.74.7",
+    "@trpc/client": "^11.1.1",
+    "@trpc/next": "^11.1.1",
+    "@trpc/server": "^11.1.1",
+    "@trpc/tanstack-react-query": "^11.1.1",
+    "superjson": "^2.2.2",
+    "zod": "^3.24.3",
+    "@orbita/auth" : "*"
+  },
+  "devDependencies": {
+    "@orbita/eslint-config": "*",
+    "@orbita/tsconfig": "*",
+    "@types/node": "^20",
+    "typescript": "^5"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "@orbita/eslint-config/lib"
+  }
+}
