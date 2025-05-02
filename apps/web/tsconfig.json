@@ -1,6 +1,8 @@
 {
   "extends": "@orbita/tsconfig/nextjs.json",
   "compilerOptions": {
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -8,7 +10,9 @@
       "@orbita/client/*": ["../../packages/prisma/*"]
     },
     "strictNullChecks": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "plugins": [{"name" : "next"}]
   },
   "include": [
     "next-env.d.ts",

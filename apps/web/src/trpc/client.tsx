@@ -22,7 +22,7 @@ function getUrl() {
     if (typeof window !== 'undefined') return ''
     console.log({ appURL: process.env.APP_URL })
     if (process.env.APP_URL) return `https://${process.env.APP_URL}`
-    return 'http://localhost:3000'
+    return 'http://localhost:3001'
   })()
   return `${base}/api/trpc`
 }
