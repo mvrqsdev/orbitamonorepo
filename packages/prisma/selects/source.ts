@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/client'
+import { Prisma } from '@prisma/client'
 
 export const SourceBase = Prisma.validator<Prisma.CampaignSourceSelect>()({
   id: true,

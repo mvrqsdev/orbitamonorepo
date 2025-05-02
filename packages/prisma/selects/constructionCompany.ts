@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/client'
+import { Prisma } from '@prisma/client'
 
 export const ConstructionCompanyBase =
   Prisma.validator<Prisma.ConstructionCompanySelect>()({

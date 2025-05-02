@@ -7,11 +7,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@orbita/ui/*": ["../../packages/ui/src/*"],
-      "@orbita/client/*": ["../../packages/prisma/*"]
+      "@prisma/client/*": ["@orbita/prisma/client/*"],
     },
     "strictNullChecks": true,
     "experimentalDecorators": true,
-    "module": "esnext",
     "plugins": [{"name" : "next"}]
   },
   "include": [
@@ -22,5 +21,5 @@
     ".next/types/**/*.ts",
     "tailwind.config.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next"]
 }

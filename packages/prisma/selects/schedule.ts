@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/client'
+import { Prisma } from '@prisma/client'
 
 export const ScheduleBase = Prisma.validator<Prisma.ScheduleSelect>()({
   id: true,

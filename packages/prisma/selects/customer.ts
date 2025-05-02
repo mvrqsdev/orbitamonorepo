@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/client'
+import { Prisma } from '@prisma/client'
 
 export const CustomerBase = Prisma.validator<Prisma.CustomerSelect>()({
   id: true,

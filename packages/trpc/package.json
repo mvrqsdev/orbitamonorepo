@@ -2,7 +2,7 @@
   "name": "@orbita/trpc",
   "version": "1.0.0",
   "private": true,
-  "main": "index.js",
+  "main": "index.ts",
   "license": "MIT",
   "exports": {
     ".": {
