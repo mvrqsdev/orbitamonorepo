@@ -1,8 +1,4 @@
 import { Prisma } from '../generated/client'
-import { LaneBase } from './lane'
-import { LeadBase, LeadLostReasonBase } from './lead'
-import { TagBase } from './tag'
-import { UserBase } from './user'
 
 export const CustomerBase = Prisma.validator<Prisma.CustomerSelect>()({
   id: true,
@@ -20,22 +16,66 @@ export const CustomerSelect = Prisma.validator<Prisma.CustomerSelect>()({
   ...CustomerBase,
   Leads: {
     select: {
-      ...LeadBase,
+      id: true,
+      title: true,
+      value: true,
+      status: true,
+      laneId: true,
+      customerId: true,
+      lostedLeadReasonId: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: true,
       Broker: {
-        select: UserBase,
+        select: {
+          id: true,
+          image: true,
+          name: true,
+          email: true,
+          master: true,
+          chatwootAgentId: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       Tags: {
         select: {
           Tag: {
-            select: TagBase,
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              color: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
         },
       },
       Lane: {
-        select: LaneBase,
+        select: {
+          id: true,
+          name: true,
+          principal: true,
+          sortOrder: true,
+          color: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       LostedReason: {
-        select: LeadLostReasonBase,
+        select: {
+          id: true,
+          reason: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
     },
   },

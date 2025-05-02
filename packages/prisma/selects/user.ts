@@ -1,19 +1,4 @@
 import { Prisma } from '../generated/client'
-import { CampaignBase } from './campaign'
-import { ConstructionCompanyBase } from './constructionCompany'
-import { ContactBase } from './contact'
-import { CustomerBase } from './customer'
-import {
-  LeadBase,
-  LeadCommentBase,
-  LeadDocumentBase,
-  LeadLostReasonBase,
-} from './lead'
-import { PermissionBase } from './permission'
-import { ProjectBase } from './project'
-import { ScheduleBase } from './schedule'
-import { SourceBase } from './source'
-import { TagBase } from './tag'
 
 export const UserBase = Prisma.validator<Prisma.UserSelect>()({
   id: true,
@@ -33,32 +18,88 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
   Permissions: {
     select: {
       Permission: {
-        select: PermissionBase,
+        select: {
+          id: true,
+          description: true,
+          slug: true,
+          _count: true,
+        },
       },
     },
   },
   Leads: {
     select: {
-      ...LeadBase,
+      id: true,
+      title: true,
+      value: true,
+      status: true,
+      laneId: true,
+      customerId: true,
+      lostedLeadReasonId: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: true,
       Customer: {
-        select: CustomerBase,
+        select: {
+          id: true,
+          picture: true,
+          name: true,
+          email: true,
+          phone: true,
+          chatwootContactId: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       Campaigns: {
         select: {
           Campaign: {
             select: {
-              ...CampaignBase,
+              id: true,
+              projectId: true,
+              sourceId: true,
+              title: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
               Source: {
-                select: SourceBase,
+                select: {
+                  id: true,
+                  title: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
+                },
               },
               Project: {
                 select: {
-                  ...ProjectBase,
+                  id: true,
+                  constructionId: true,
+                  title: true,
+                  url: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
                   ConstructionCompany: {
                     select: {
-                      ...ConstructionCompanyBase,
+                      id: true,
+                      name: true,
+                      email: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
                       Contacts: {
-                        select: ContactBase,
+                        select: {
+                          id: true,
+                          constructionCompanyId: true,
+                          name: true,
+                          email: true,
+                          phone: true,
+                          createdAt: true,
+                          updatedAt: true,
+                        },
                       },
                     },
                   },
@@ -69,12 +110,26 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
         },
       },
       LostedReason: {
-        select: LeadLostReasonBase,
+        select: {
+          id: true,
+          reason: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       Tags: {
         select: {
           Tag: {
-            select: TagBase,
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              color: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
         },
       },
@@ -82,32 +137,89 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
   },
   LeadComments: {
     select: {
-      ...LeadCommentBase,
+      id: true,
+      leadId: true,
+      content: true,
+      userId: true,
+      deleted: true,
+      createdAt: true,
+      updatedAt: true,
       Lead: {
         select: {
-          ...LeadBase,
+          id: true,
+          title: true,
+          value: true,
+          status: true,
+          laneId: true,
+          customerId: true,
+          lostedLeadReasonId: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
           Broker: {
             select: UserBase,
           },
           Customer: {
-            select: CustomerBase,
+            select: {
+              id: true,
+              picture: true,
+              name: true,
+              email: true,
+              phone: true,
+              chatwootContactId: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Campaigns: {
             select: {
               Campaign: {
                 select: {
-                  ...CampaignBase,
+                  id: true,
+                  projectId: true,
+                  sourceId: true,
+                  title: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
                   Source: {
-                    select: SourceBase,
+                    select: {
+                      id: true,
+                      title: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
+                    },
                   },
                   Project: {
                     select: {
-                      ...ProjectBase,
+                      id: true,
+                      constructionId: true,
+                      title: true,
+                      url: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
                       ConstructionCompany: {
                         select: {
-                          ...ConstructionCompanyBase,
+                          id: true,
+                          name: true,
+                          email: true,
+                          createdAt: true,
+                          updatedAt: true,
+                          _count: true,
                           Contacts: {
-                            select: ContactBase,
+                            select: {
+                              id: true,
+                              constructionCompanyId: true,
+                              name: true,
+                              email: true,
+                              phone: true,
+                              createdAt: true,
+                              updatedAt: true,
+                            },
                           },
                         },
                       },
@@ -118,12 +230,26 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
             },
           },
           LostedReason: {
-            select: LeadLostReasonBase,
+            select: {
+              id: true,
+              reason: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Tags: {
             select: {
               Tag: {
-                select: TagBase,
+                select: {
+                  id: true,
+                  name: true,
+                  description: true,
+                  color: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
+                },
               },
             },
           },
@@ -133,32 +259,88 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
   },
   LeadDocuments: {
     select: {
-      ...LeadDocumentBase,
+      leadId: true,
+      userId: true,
+      name: true,
+      path: true,
+      createdAt: true,
+      updatedAt: true,
       Lead: {
         select: {
-          ...LeadBase,
+          id: true,
+          title: true,
+          value: true,
+          status: true,
+          laneId: true,
+          customerId: true,
+          lostedLeadReasonId: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
           Broker: {
             select: UserBase,
           },
           Customer: {
-            select: CustomerBase,
+            select: {
+              id: true,
+              picture: true,
+              name: true,
+              email: true,
+              phone: true,
+              chatwootContactId: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Campaigns: {
             select: {
               Campaign: {
                 select: {
-                  ...CampaignBase,
+                  id: true,
+                  projectId: true,
+                  sourceId: true,
+                  title: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
                   Source: {
-                    select: SourceBase,
+                    select: {
+                      id: true,
+                      title: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
+                    },
                   },
                   Project: {
                     select: {
-                      ...ProjectBase,
+                      id: true,
+                      constructionId: true,
+                      title: true,
+                      url: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
                       ConstructionCompany: {
                         select: {
-                          ...ConstructionCompanyBase,
+                          id: true,
+                          name: true,
+                          email: true,
+                          createdAt: true,
+                          updatedAt: true,
+                          _count: true,
                           Contacts: {
-                            select: ContactBase,
+                            select: {
+                              id: true,
+                              constructionCompanyId: true,
+                              name: true,
+                              email: true,
+                              phone: true,
+                              createdAt: true,
+                              updatedAt: true,
+                            },
                           },
                         },
                       },
@@ -169,12 +351,26 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
             },
           },
           LostedReason: {
-            select: LeadLostReasonBase,
+            select: {
+              id: true,
+              reason: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Tags: {
             select: {
               Tag: {
-                select: TagBase,
+                select: {
+                  id: true,
+                  name: true,
+                  description: true,
+                  color: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
+                },
               },
             },
           },
@@ -184,32 +380,92 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
   },
   Schedules: {
     select: {
-      ...ScheduleBase,
+      id: true,
+      userId: true,
+      leadId: true,
+      date: true,
+      status: true,
+      address: true,
+      nextNotificationAt: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: true,
       Lead: {
         select: {
-          ...LeadBase,
+          id: true,
+          title: true,
+          value: true,
+          status: true,
+          laneId: true,
+          customerId: true,
+          lostedLeadReasonId: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
           Broker: {
             select: UserBase,
           },
           Customer: {
-            select: CustomerBase,
+            select: {
+              id: true,
+              picture: true,
+              name: true,
+              email: true,
+              phone: true,
+              chatwootContactId: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Campaigns: {
             select: {
               Campaign: {
                 select: {
-                  ...CampaignBase,
+                  id: true,
+                  projectId: true,
+                  sourceId: true,
+                  title: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
                   Source: {
-                    select: SourceBase,
+                    select: {
+                      id: true,
+                      title: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
+                    },
                   },
                   Project: {
                     select: {
-                      ...ProjectBase,
+                      id: true,
+                      constructionId: true,
+                      title: true,
+                      url: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
                       ConstructionCompany: {
                         select: {
-                          ...ConstructionCompanyBase,
+                          id: true,
+                          name: true,
+                          email: true,
+                          createdAt: true,
+                          updatedAt: true,
+                          _count: true,
                           Contacts: {
-                            select: ContactBase,
+                            select: {
+                              id: true,
+                              constructionCompanyId: true,
+                              name: true,
+                              email: true,
+                              phone: true,
+                              createdAt: true,
+                              updatedAt: true,
+                            },
                           },
                         },
                       },
@@ -220,12 +476,26 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
             },
           },
           LostedReason: {
-            select: LeadLostReasonBase,
+            select: {
+              id: true,
+              reason: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Tags: {
             select: {
               Tag: {
-                select: TagBase,
+                select: {
+                  id: true,
+                  name: true,
+                  description: true,
+                  color: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
+                },
               },
             },
           },
@@ -244,35 +514,93 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
     select: {
       Schedule: {
         select: {
-          User: {
-            select: UserBase,
-          },
-          ...ScheduleBase,
+          id: true,
+          userId: true,
+          leadId: true,
+          date: true,
+          status: true,
+          address: true,
+          nextNotificationAt: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+
           Lead: {
             select: {
-              ...LeadBase,
+              id: true,
+              title: true,
+              value: true,
+              status: true,
+              laneId: true,
+              customerId: true,
+              lostedLeadReasonId: true,
+              userId: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
               Broker: {
                 select: UserBase,
               },
               Customer: {
-                select: CustomerBase,
+                select: {
+                  id: true,
+                  picture: true,
+                  name: true,
+                  email: true,
+                  phone: true,
+                  chatwootContactId: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
+                },
               },
               Campaigns: {
                 select: {
                   Campaign: {
                     select: {
-                      ...CampaignBase,
+                      id: true,
+                      projectId: true,
+                      sourceId: true,
+                      title: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
                       Source: {
-                        select: SourceBase,
+                        select: {
+                          id: true,
+                          title: true,
+                          createdAt: true,
+                          updatedAt: true,
+                          _count: true,
+                        },
                       },
                       Project: {
                         select: {
-                          ...ProjectBase,
+                          id: true,
+                          constructionId: true,
+                          title: true,
+                          url: true,
+                          createdAt: true,
+                          updatedAt: true,
+                          _count: true,
                           ConstructionCompany: {
                             select: {
-                              ...ConstructionCompanyBase,
+                              id: true,
+                              name: true,
+                              email: true,
+                              createdAt: true,
+                              updatedAt: true,
+                              _count: true,
                               Contacts: {
-                                select: ContactBase,
+                                select: {
+                                  id: true,
+                                  constructionCompanyId: true,
+                                  name: true,
+                                  email: true,
+                                  phone: true,
+                                  createdAt: true,
+                                  updatedAt: true,
+                                },
                               },
                             },
                           },
@@ -283,16 +611,33 @@ export const UserSelect = Prisma.validator<Prisma.UserSelect>()({
                 },
               },
               LostedReason: {
-                select: LeadLostReasonBase,
+                select: {
+                  id: true,
+                  reason: true,
+                  createdAt: true,
+                  updatedAt: true,
+                  _count: true,
+                },
               },
               Tags: {
                 select: {
                   Tag: {
-                    select: TagBase,
+                    select: {
+                      id: true,
+                      name: true,
+                      description: true,
+                      color: true,
+                      createdAt: true,
+                      updatedAt: true,
+                      _count: true,
+                    },
                   },
                 },
               },
             },
+          },
+          User: {
+            select: UserBase,
           },
           Participants: {
             select: {

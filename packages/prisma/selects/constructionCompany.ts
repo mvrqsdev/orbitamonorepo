@@ -1,8 +1,4 @@
 import { Prisma } from '../generated/client'
-import { CampaignBase } from './campaign'
-import { ContactBase } from './contact'
-import { ProjectBase } from './project'
-import { SourceBase } from './source'
 
 export const ConstructionCompanyBase =
   Prisma.validator<Prisma.ConstructionCompanySelect>()({
@@ -18,16 +14,42 @@ export const ConstructionCompanySelect =
   Prisma.validator<Prisma.ConstructionCompanySelect>()({
     ...ConstructionCompanyBase,
     Contacts: {
-      select: ContactBase,
+      select: {
+        id: true,
+        constructionCompanyId: true,
+        name: true,
+        email: true,
+        phone: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     },
     Projects: {
       select: {
-        ...ProjectBase,
+        id: true,
+        constructionId: true,
+        title: true,
+        url: true,
+        createdAt: true,
+        updatedAt: true,
+        _count: true,
         Campaigns: {
           select: {
-            ...CampaignBase,
+            id: true,
+            projectId: true,
+            sourceId: true,
+            title: true,
+            createdAt: true,
+            updatedAt: true,
+            _count: true,
             Source: {
-              select: SourceBase,
+              select: {
+                id: true,
+                title: true,
+                createdAt: true,
+                updatedAt: true,
+                _count: true,
+              },
             },
           },
         },

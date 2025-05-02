@@ -3,6 +3,8 @@ const nextConfig = {
   transpilePackages: [
     '@orbita/ui',
     '@orbita/prisma',
+    '@orbita/trpc',
+    '@orbita/auth',
   ],
 }
 

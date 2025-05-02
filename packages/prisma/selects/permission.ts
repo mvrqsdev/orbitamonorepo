@@ -1,5 +1,4 @@
 import { Prisma } from '../generated/client'
-import { UserBase } from './user'
 
 export const PermissionBase = Prisma.validator<Prisma.PermissionSelect>()({
   id: true,
@@ -14,7 +13,16 @@ export const PermissionSelect = Prisma.validator<Prisma.PermissionSelect>()({
     select: {
       User: {
         select: {
-          ...UserBase,
+          id: true,
+          image: true,
+          name: true,
+          email: true,
+          master: true,
+          chatwootAgentId: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
         },
       },
     },

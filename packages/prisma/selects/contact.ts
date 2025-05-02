@@ -1,5 +1,4 @@
 import { Prisma } from '../generated/client'
-import { ConstructionCompanyBase } from './constructionCompany'
 
 export const ContactBase = Prisma.validator<Prisma.ContactSelect>()({
   id: true,
@@ -14,6 +13,13 @@ export const ContactBase = Prisma.validator<Prisma.ContactSelect>()({
 export const ContactSelect = Prisma.validator<Prisma.ContactSelect>()({
   ...ContactBase,
   ConstructionCompany: {
-    select: ConstructionCompanyBase,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: true,
+    },
   },
 })

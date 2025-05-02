@@ -12,7 +12,13 @@
   "dependencies": {
     "@orbita/dayjs": "*",
     "@orbita/prisma": "*",
+    "@orbita/trpc": "*",
     "@orbita/ui": "*",
+    "@tanstack/react-query": "^5.74.11",
+    "@trpc/client": "^11.1.2",
+    "@trpc/react-query": "^11.1.2",
+    "@trpc/server": "^11.1.2",
+    "@trpc/tanstack-react-query": "^11.1.2",
     "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

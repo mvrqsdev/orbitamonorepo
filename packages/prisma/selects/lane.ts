@@ -1,9 +1,4 @@
 import { Prisma } from '../generated/client'
-import { CustomerBase } from './customer'
-import { LeadBase, LeadLostReasonBase } from './lead'
-import { ScheduleBase } from './schedule'
-import { TagBase } from './tag'
-import { UserBase } from './user'
 
 export const LaneBase = Prisma.validator<Prisma.LaneSelect>()({
   id: true,
@@ -20,25 +15,81 @@ export const LaneSelect = Prisma.validator<Prisma.LaneSelect>()({
   ...LaneBase,
   Leads: {
     select: {
-      ...LeadBase,
+      id: true,
+      title: true,
+      value: true,
+      status: true,
+      laneId: true,
+      customerId: true,
+      lostedLeadReasonId: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: true,
       Broker: {
-        select: UserBase,
+        select: {
+          id: true,
+          image: true,
+          name: true,
+          email: true,
+          master: true,
+          chatwootAgentId: true,
+          status: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       Tags: {
         select: {
           Tag: {
-            select: TagBase,
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              color: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
         },
       },
       Schedules: {
-        select: ScheduleBase,
+        select: {
+          id: true,
+          userId: true,
+          leadId: true,
+          date: true,
+          status: true,
+          address: true,
+          nextNotificationAt: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       Customer: {
-        select: CustomerBase,
+        select: {
+          id: true,
+          picture: true,
+          name: true,
+          email: true,
+          phone: true,
+          chatwootContactId: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
       LostedReason: {
-        select: LeadLostReasonBase,
+        select: {
+          id: true,
+          reason: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
+        },
       },
     },
   },

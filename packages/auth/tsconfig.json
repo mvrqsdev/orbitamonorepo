@@ -1,0 +1,13 @@
+{
+  "extends" : "@orbita/tsconfig/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@orbita/ui/*": ["../packages/ui/src/*"],
+      "@prisma/client/*": ["@orbita/prisma/*"]
+    },
+    "strictNullChecks": true,
+    "experimentalDecorators": true
+  }
+}

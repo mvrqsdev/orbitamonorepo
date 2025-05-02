@@ -1,8 +1,4 @@
 import { Prisma } from '../generated/client'
-import { CustomerBase } from './customer'
-import { LaneBase } from './lane'
-import { LeadBase, LeadLostReasonBase } from './lead'
-import { UserBase } from './user'
 
 export const TagBase = Prisma.validator<Prisma.TagSelect>()({
   id: true,
@@ -20,18 +16,64 @@ export const TagSelect = Prisma.validator<Prisma.TagSelect>()({
     select: {
       Lead: {
         select: {
-          ...LeadBase,
+          id: true,
+          title: true,
+          value: true,
+          status: true,
+          laneId: true,
+          customerId: true,
+          lostedLeadReasonId: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
+          _count: true,
           Broker: {
-            select: UserBase,
+            select: {
+              id: true,
+              image: true,
+              name: true,
+              email: true,
+              master: true,
+              chatwootAgentId: true,
+              status: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Customer: {
-            select: CustomerBase,
+            select: {
+              id: true,
+              picture: true,
+              name: true,
+              email: true,
+              phone: true,
+              chatwootContactId: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           LostedReason: {
-            select: LeadLostReasonBase,
+            select: {
+              id: true,
+              reason: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
           Lane: {
-            select: LaneBase,
+            select: {
+              id: true,
+              name: true,
+              principal: true,
+              sortOrder: true,
+              color: true,
+              createdAt: true,
+              updatedAt: true,
+              _count: true,
+            },
           },
         },
       },
