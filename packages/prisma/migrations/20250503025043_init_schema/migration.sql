@@ -10,19 +10,41 @@ CREATE TYPE "ScheduleStatus" AS ENUM ('Scheduled', 'Completed', 'Canceled');
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "image" TEXT,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "image" TEXT,
     "master" BOOLEAN NOT NULL DEFAULT false,
-    "resetTokenPassword" TEXT,
-    "resetTokenPasswordExpiresAt" TIMESTAMP(3),
     "status" "UserStatus" NOT NULL DEFAULT 'Inactive',
     "chatwootAgentId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "sessions" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
+    "accessToken" TEXT NOT NULL,
+    "revoke" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "api_tokens" (
+    "id" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdBy" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "api_tokens_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -257,10 +279,13 @@ CREATE TABLE "contacts" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_resetTokenPassword_key" ON "users"("resetTokenPassword");
+CREATE UNIQUE INDEX "sessions_accessToken_key" ON "sessions"("accessToken");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "permissions_slug_key" ON "permissions"("slug");
+
+-- AddForeignKey
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "user_permissions" ADD CONSTRAINT "user_permissions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

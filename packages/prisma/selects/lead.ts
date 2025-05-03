@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma } from '../generated/client'
 
 export const LeadBase = Prisma.validator<Prisma.LeadSelect>()({
   id: true,

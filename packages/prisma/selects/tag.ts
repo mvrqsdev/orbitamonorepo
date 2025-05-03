@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Prisma } from '../generated/client'
 
 export const TagBase = Prisma.validator<Prisma.TagSelect>()({
   id: true,

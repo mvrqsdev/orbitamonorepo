@@ -2,17 +2,12 @@
   "name": "@orbita/auth",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "license": "MIT",
-  "exports": {
-    ".": "./src/index.ts",
-    "./client": "./src/client.ts"
-  },
+  "main": "./src/index.ts",
   "dependencies": {
-    "@auth/prisma-adapter": "^2.9.0",
     "@orbita/prisma": "*",
-    "next": "15.3.0",
-    "next-auth": "^5.0.0-beta.27",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zod": "^3.24.3"
@@ -20,6 +15,8 @@
   "devDependencies": {
     "@orbita/eslint-config": "*",
     "@orbita/tsconfig": "*",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "typescript": "^5"

@@ -8,19 +8,24 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./src/index.ts"
-    }
+    },
+    "./adapters/express": "./src/adapters/express.ts",
+    "./adapters/next": "./src/adapters/next.ts"
   },
   "dependencies": {
     "@orbita/auth": "*",
     "@orbita/prisma": "*",
+    "next": "15.3.0",
     "@trpc/server": "^11.1.2",
     "superjson": "^2.2.2",
+    "ua-parser-js": "^2.0.3",
     "zod": "^3.24.3"
   },
   "devDependencies": {
     "@orbita/eslint-config": "*",
     "@orbita/tsconfig": "*",
     "@types/node": "^20",
+    "@types/ua-parser-js": "^0.7.39",
     "typescript": "^5"
   },
   "eslintConfig": {

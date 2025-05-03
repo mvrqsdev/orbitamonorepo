@@ -7,11 +7,12 @@
     "paths": {
       "@/*": ["./src/*"],
       "@orbita/ui/*": ["../../packages/ui/src/*"],
-      "@prisma/client/*": ["@orbita/prisma/client/*"],
+      "@prisma/client/*": ["@orbita/prisma/*"],
     },
     "strictNullChecks": true,
     "experimentalDecorators": true,
-    "plugins": [{"name" : "next"}]
+    "plugins": [{"name" : "next"}],
+    "module": "ESNext"
   },
   "include": [
     "next-env.d.ts",

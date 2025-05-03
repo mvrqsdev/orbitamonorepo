@@ -1,37 +1,26 @@
 'use client'
 
+import { TooltipProvider } from '@orbita/ui/components/tooltip'
+import { ReactNode } from 'react'
 
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { ThemeProvider } from 'next-themes'
-import { type ReactNode, useState } from 'react'
-import { toast, Toaster } from 'sonner'
+import { ThemeProvider } from '@/providers/theme-provider'
+import { TRPCProvider } from '@/trpc/client'
 
+import { SearchProvider } from './search-provider'
 
-
-
-export function Providers({ children }: { children: ReactNode }) {
-  // NOTE: Avoid useState when initializing the query client if you don't
-  //       have a suspense boundary between this and the code that may
-  //       suspend because React will throw away the client on the initial
-  //       render if it suspends and there is no boundary
-
-
-
-
-  const router = useRouter()
-
+export function Provider({ children }: { children: ReactNode }) {
   return (
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-        
-              {children}
-
-              <Toaster />
-          </ThemeProvider>
+    <TRPCProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="light"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <TooltipProvider>
+          <SearchProvider>{children}</SearchProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </TRPCProvider>
   )
 }
