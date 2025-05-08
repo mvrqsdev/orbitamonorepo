@@ -17,11 +17,11 @@ import {
 } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import { useSearch } from '@/providers/search-provider'
-
-import { getSidebarData } from './sidebar-data'
+import { routesCategories } from '@/routes'
+import { getSortedPrivateMenu } from '@/routes/functions'
 
 export function CommandMenu() {
   const navigate = useRouter()
@@ -36,9 +36,7 @@ export function CommandMenu() {
     [setOpen],
   )
 
-  const menus = useMemo(() => {
-    return getSidebarData()
-  }, [])
+  const menu = getSortedPrivateMenu(routesCategories, ['view:dashboard'])
 
   return (
     <CommandDialog modal open={open} onOpenChange={setOpen}>
@@ -46,22 +44,25 @@ export function CommandMenu() {
       <CommandList>
         <ScrollArea type="hover" className="h-72 pr-1">
           <CommandEmpty>Nenhum resultado encontrado</CommandEmpty>
-          {menus &&
-            menus.map((group) => {
-              if (group.menus.length > 0) {
+          {menu &&
+            menu.map((group) => {
+              if (group.content.length > 0) {
                 return (
-                  <CommandGroup key={group.title} heading={group.title}>
-                    {group.menus.map((navItem, i) => {
-                      if (!navItem.submenu)
+                  <CommandGroup
+                    key={`${group.title}-${group.type}`}
+                    heading={group.title}
+                  >
+                    {group.content.map((navItem, i) => {
+                      if (!('submenus' in navItem)) {
                         return (
                           <CommandItem
-                            key={`${navItem.url}-${i}`}
-                            value={navItem.title}
+                            key={`${navItem.path}-${i}`}
+                            value={navItem.label}
                             className="cursor-pointer"
                             onSelect={() => {
                               runCommand(() => {
-                                if (navItem.url) {
-                                  navigate.push(navItem.url ? navItem.url : '#')
+                                if (navItem.path) {
+                                  navigate.push(navItem.path ?? '#')
                                 }
                               })
                             }}
@@ -69,23 +70,24 @@ export function CommandMenu() {
                             <div className="mr-2 flex h-4 w-4 items-center justify-center">
                               <IconArrowRightDashed className="size-2 text-muted-foreground/80" />
                             </div>
-                            {navItem.title}
+                            {navItem.label}
                           </CommandItem>
                         )
+                      }
 
-                      return navItem.submenu?.map((subItem, i) => (
+                      return navItem.submenus.map((subItem, i) => (
                         <CommandItem
-                          key={`${subItem.url}-${i}`}
-                          value={subItem.title}
+                          key={`${subItem.path}-${i}`}
+                          value={subItem.label}
                           className="cursor-pointer"
                           onSelect={() => {
-                            runCommand(() => navigate.push(subItem.url))
+                            runCommand(() => navigate.push(subItem.path))
                           }}
                         >
                           <div className="mr-2 flex h-4 w-4 items-center justify-center">
                             <IconArrowRightDashed className="size-2 text-muted-foreground/80" />
                           </div>
-                          {subItem.title}
+                          {subItem.label}
                         </CommandItem>
                       ))
                     })}
@@ -94,6 +96,7 @@ export function CommandMenu() {
               }
               return null
             })}
+
           <CommandSeparator />
           <CommandGroup heading="Tema">
             <CommandItem

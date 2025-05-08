@@ -5,18 +5,19 @@
   "main": "index.ts",
   "license": "MIT",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./src/index.ts"
-    },
-    "./adapters/express": "./src/adapters/express.ts",
-    "./adapters/next": "./src/adapters/next.ts"
+    "./procedures/auth": "./src/server/router/auth/index.ts",
+    "./procedures/auth/types": "./src/server/router/auth/types.ts",
+    "./next" : "./src/next/index.ts",
+    "./express" : "./src/express/index.ts",
+    "./server" : "./src/server/index.ts"
   },
   "dependencies": {
-    "@orbita/auth": "*",
+    "@orbita/features": "*",
     "@orbita/prisma": "*",
-    "next": "15.3.0",
+    "@trpc-limiter/upstash": "^1.0.0",
     "@trpc/server": "^11.1.2",
+    "bcryptjs": "^3.0.2",
+    "next": "15.3.0",
     "superjson": "^2.2.2",
     "ua-parser-js": "^2.0.3",
     "zod": "^3.24.3"

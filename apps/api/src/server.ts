@@ -1,11 +1,17 @@
-import { appRouter, createTRPCContext } from '@orbita/trpc'
-import * as trpcExpress from '@orbita/trpc/adapters/express'
+import * as trpcExpress from '@orbita/trpc/express'
+import { appRouter, createTRPCContext } from '@orbita/trpc/server'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
+
+import { errorMiddleware } from './middleware/error'
+import { successMiddleware } from './middleware/sucess'
+import routes from './routes'
 const app = express()
 
+app.use(express.json())
 app.use(cookieParser())
+
 app.use(
   cors({
     origin: 'http://192.168.15.2:3000', // Permite todas as origens
@@ -29,9 +35,8 @@ app.use(
     createContext: createTRPCContext,
   }),
 )
-
-app.get('/', (req, res) => {
-  res.send('ok')
-})
+app.use(successMiddleware)
+app.use(routes)
+app.use(errorMiddleware)
 
 app.listen(3001, () => console.log('Server running at port 3001'))

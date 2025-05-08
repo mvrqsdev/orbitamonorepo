@@ -12,24 +12,4 @@ export const SessionBase = Prisma.validator<Prisma.SessionDefaultArgs>()({
   },
 })
 
-export const SessionSelect = Prisma.validator<Prisma.SessionDefaultArgs>()({
-  select: {
-    ...SessionBase,
-    User: {
-      select: {
-        id: true,
-        image: true,
-        name: true,
-        email: true,
-        master: true,
-        chatwootAgentId: true,
-        status: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    },
-  },
-})
-
-export type AppSessionBase = Prisma.SessionGetPayload<typeof SessionBase>
-export type AppSessionSelect = Prisma.SessionGetPayload<typeof SessionSelect>
+export type Session = Prisma.SessionGetPayload<typeof SessionBase>

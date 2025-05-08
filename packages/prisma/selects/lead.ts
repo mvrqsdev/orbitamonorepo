@@ -1,18 +1,21 @@
 import { Prisma } from '../generated/client'
 
-export const LeadBase = Prisma.validator<Prisma.LeadSelect>()({
-  id: true,
-  title: true,
-  value: true,
-  status: true,
-  laneId: true,
-  customerId: true,
-  lostedLeadReasonId: true,
-  userId: true,
-  createdAt: true,
-  updatedAt: true,
-  _count: true,
+export const LeadBase = Prisma.validator<Prisma.LeadDefaultArgs>()({
+  select: {
+    id: true,
+    title: true,
+    value: true,
+    status: true,
+    laneId: true,
+    customerId: true,
+    lostedLeadReasonId: true,
+    userId: true,
+    createdAt: true,
+    updatedAt: true,
+  },
 })
+
+export type Lead = Prisma.LeadGetPayload<typeof LeadBase>
 
 export const LeadDocumentBase = Prisma.validator<Prisma.LeadDocumentSelect>()({
   leadId: true,
@@ -64,7 +67,7 @@ export const LeadSelect = Prisma.validator<Prisma.LeadSelect>()({
   Customer: {
     select: {
       id: true,
-      picture: true,
+      image: true,
       name: true,
       email: true,
       phone: true,

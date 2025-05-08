@@ -1,44 +1,41 @@
 'use client'
-
-import type { AppRouter } from '@orbita/trpc'
-import type { QueryClient } from '@tanstack/react-query'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { httpBatchLink } from '@trpc/client'
-import { createTRPCReact } from '@trpc/react-query'
+import { AppRouter } from '@orbita/trpc/server'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { createTRPCClient, httpBatchLink } from '@trpc/client'
+import { createTRPCContext } from '@trpc/tanstack-react-query'
 import cookies from 'js-cookie'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import superjson from 'superjson'
 
 import { makeQueryClient } from './query-client'
 
-export const trpc = createTRPCReact<AppRouter>()
+export const { TRPCProvider, useTRPC, useTRPCClient } =
+  createTRPCContext<AppRouter>()
 
-let clientQueryClientSingleton: QueryClient
-
-// Função para retornar o QueryClient (utilizando singleton)
-function getQueryClient() {
-  if (typeof window === 'undefined') {
-    return makeQueryClient()
-  }
-  return (clientQueryClientSingleton ??= makeQueryClient())
-}
-
-// Função para configurar a URL dependendo do ambiente (SSR ou Client)
 function getUrl() {
   const base = process.env.NEXT_PUBLIC_APP_URL || 'http://192.168.15.2:3001'
   return `${base}/trpc`
 }
 
-export function TRPCProvider(
-  props: Readonly<{
-    children: React.ReactNode
-  }>,
-) {
-  const queryClient = getQueryClient()
+let browserQueryClient: QueryClient | undefined
 
-  // Inicializando o cliente TRPC
+function getQueryClient() {
+  if (typeof window === 'undefined') {
+    return makeQueryClient()
+  } else {
+    if (!browserQueryClient) browserQueryClient = makeQueryClient()
+    return browserQueryClient
+  }
+}
+
+interface ITRPCProvider {
+  children: ReactNode
+}
+
+export function TRPCCLient({ children }: ITRPCProvider) {
+  const [queryClient] = useState(getQueryClient())
   const [trpcClient] = useState(() => {
-    return trpc.createClient({
+    return createTRPCClient<AppRouter>({
       links: [
         httpBatchLink({
           transformer: superjson,
@@ -47,14 +44,11 @@ export function TRPCProvider(
             const headers = new Headers()
             headers.set('x-trpc-source', 'nextjs-react')
 
-            // const sessionId = cookies.get('sessionId')
-            cookies.set('sessionId', 'valorDoSessionId', {
-              path: '/',
-              secure: false,
-              sameSite: 'Lax',
-            })
+            const sessionId = cookies.get('sessionId')
 
-            headers.set('sessionId', 'valorDoSessionId')
+            if (sessionId) {
+              headers.set('sessionId', sessionId)
+            }
 
             return headers
           },
@@ -68,12 +62,11 @@ export function TRPCProvider(
       ],
     })
   })
-
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        {props.children}
-      </QueryClientProvider>
-    </trpc.Provider>
+    <QueryClientProvider client={queryClient}>
+      <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+        {children}
+      </TRPCProvider>
+    </QueryClientProvider>
   )
 }

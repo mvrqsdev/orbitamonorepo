@@ -8,7 +8,11 @@
     "dev": "ts-node-dev src/server.ts"
   },
   "dependencies": {
+    "@orbita/dayjs": "*",
+    "@orbita/features": "*",
+    "@orbita/prisma": "*",
     "@orbita/trpc": "*",
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -19,6 +23,7 @@
   "devDependencies": {
     "@orbita/eslint-config": "*",
     "@orbita/tsconfig": "*",
+    "@types/bcryptjs": "^3.0.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",

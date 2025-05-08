@@ -1,7 +1,7 @@
 import 'server-only'
 
-import { appRouter, createCallerFactory } from '@orbita/trpc'
-import { createTRPCContext } from '@orbita/trpc/adapters/next' // atualizado
+import { createTRPCContext } from '@orbita/trpc/next' // atualizado
+import { appRouter, createCallerFactory } from '@orbita/trpc/server'
 import { createHydrationHelpers } from '@trpc/react-query/rsc'
 import { cache } from 'react'
 

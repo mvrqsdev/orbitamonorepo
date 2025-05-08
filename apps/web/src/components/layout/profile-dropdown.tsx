@@ -15,9 +15,14 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@orbita/ui/components/dropdown-menu'
+// import { useSidebar } from '@orbita/ui/components/sidebar'
 import Link from 'next/link'
 
+import { SignOut } from '@/components/sign-out'
+
 export function ProfileDropdown() {
+  // const { isMobile } = useSidebar()
+
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
@@ -54,10 +59,12 @@ export function ProfileDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log('oi')}>
-          Sair
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <SignOut asChild>
+          <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+            Sair
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </SignOut>
       </DropdownMenuContent>
     </DropdownMenu>
   )

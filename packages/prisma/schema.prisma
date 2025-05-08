@@ -18,12 +18,16 @@ model User {
   id              String     @id @default(cuid())
   name            String
   email           String     @unique
+  password        String?
   image           String?
   master          Boolean    @default(false)
-  status          UserStatus @default(Inactive)
+  status          UserStatus @default(Invited)
+  online          Boolean    @default(false)
+  lastActiveAt    DateTime?
   chatwootAgentId String
 
   Sessions              Session[]
+  ApiTokens             ApiTokens[]
   Permissions           UserPermission[]
   Leads                 Lead[]
   LeadComments          LeadComment[]
@@ -59,6 +63,8 @@ model ApiTokens {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@map("api_tokens")
 }
 
@@ -84,7 +90,7 @@ model UserPermission {
 
 model Customer {
   id                String   @id @default(cuid())
-  picture           String
+  image             String
   name              String
   phone             String
   email             String

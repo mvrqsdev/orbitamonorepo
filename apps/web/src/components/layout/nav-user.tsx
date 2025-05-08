@@ -23,6 +23,8 @@ import { IconSettings } from '@tabler/icons-react'
 import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
+import { SignOut } from '@/components/sign-out'
+
 export function NavUser() {
   const { isMobile } = useSidebar()
 
@@ -83,10 +85,12 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => console.log('oi')}>
-              <LogOut />
-              Sair
-            </DropdownMenuItem>
+            <SignOut asChild>
+              <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                <LogOut />
+                Sair
+              </DropdownMenuItem>
+            </SignOut>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

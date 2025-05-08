@@ -1,0 +1,46 @@
+{
+  "name": "@orbita/features",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./api/types" : "./api/types.ts",
+    "./lib": "./lib/index.ts",
+    "./session": "./session/index.ts",
+    "./users": "./users/index.ts",
+    "./permissions": "./permissions/index.ts",
+    "./jwt": "./jwt/index.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@orbita/dayjs": "*",
+    "@orbita/prisma": "*",
+    "axios": "^1.9.0",
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "ioredis": "^5.6.1",
+    "jose": "^6.0.10",
+    "jsonwebtoken": "^9.0.2",
+    "next": "15.3.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "superjson": "^2.2.2",
+    "ua-parser-js": "^2.0.3",
+    "zod": "^3.24.3",
+    "zustand": "^5.0.4"
+  },
+  "devDependencies": {
+    "@orbita/eslint-config": "*",
+    "@orbita/tsconfig": "*",
+    "@types/axios": "^0.14.4",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19",
+    "@types/ua-parser-js": "^0.7.39",
+    "typescript": "^5"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "@orbita/eslint-config/lib"
+  }
+}

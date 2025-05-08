@@ -28,20 +28,8 @@ export default function Dashboard() {
         <TopNav
           links={[
             {
-              title: 'Pagina 1',
+              title: 'Dashboard',
               href: '/pagina-1',
-              isActive: false,
-              disabled: true,
-            },
-            {
-              title: 'Pagina 2',
-              href: '/pagina-2',
-              isActive: false,
-              disabled: true,
-            },
-            {
-              title: 'Pagina 3',
-              href: '/pagina-3',
               isActive: true,
               disabled: false,
             },
